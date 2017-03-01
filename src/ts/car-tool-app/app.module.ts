@@ -11,12 +11,13 @@ import { Cars } from "./services/cars.service";
 
 import { ToolHeader } from "./components/tool-header.component";
 import { CarTable } from "./components/car-table.component";
+import { CarForm } from "./components/car-form.component";
 
 @NgModule({
     //BrowserModule - actual module
     imports: [ BrowserModule, FormsModule ],
-    declarations: [ AppComponent, MyUppercasePipe, MyEllipsisPipe, ToolHeader, CarTable ],
-    bootstrap: [ AppComponent ],
+    declarations: [ AppComponent, MyUppercasePipe, MyEllipsisPipe, ToolHeader, CarTable, CarForm ],
+    bootstrap: [ AppComponent ], 
     providers: [ { provide: Cars, useClass: Cars } ],
 })
 export class AppModule { }

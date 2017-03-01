@@ -1,10 +1,23 @@
 import { Component } from "@angular/core";
+import { Cars } from "./services/cars.service";
+import { Car } from "./interfaces/car";
 
 @Component({
     selector: "main",
     template: `
     <div>
-        <h1>{{header}}</h1>
+        <h1>{{header | myUppercase}}</h1>
+        <form>
+            <div>
+                <label>Message:</label>
+                <input type="text" name="messageInput" [(ngModel)]="message">
+            </div>
+            <div>
+                <label>Message Length:</label>
+                <input type="text" name="messageLength" [(ngModel)]="messageLength">
+            </div>
+            {{message | myEllipsis:messageLength}}
+        </form>
         <form>
             <div>
                 <label>Filter:</label>
@@ -77,7 +90,9 @@ import { Component } from "@angular/core";
     `,
 })
 export class AppComponent { 
-    public header: string = "Car Tool";
+    public header: string = "car tool is cool by mckar";
+    public message: string;
+    public messageLength: number = 0;
 
     public newCar = {
             id: 0,
@@ -88,65 +103,15 @@ export class AppComponent {
             price: 0,
     };
 
+    constructor(private carsService: Cars){ };
+
     public carMakeFilter: string = "";
-
-    public cars: { id: number, make: string, model: string, year: number, color: string, price: number }[] = [
-        {
-            id: 1,
-            make: "Toyota", 
-            model: "Sienna", 
-            year: 2004, 
-            color: "light blue", 
-            price: 2000,
-        },
-        {
-            id: 2,
-            make: "Ford", 
-            model: "Mustang", 
-            year: 2006, 
-            color: "black", 
-            price: 10000,
-        },
-        {
-            id: 3,
-            make: "Tesla", 
-            model: "Model S", 
-            year: 2017, 
-            color: "silver", 
-            price: 68000,
-        },
-        {
-            id: 4,
-            make: "Tesla", 
-            model: "Model X", 
-            year: 2017, 
-            color: "black", 
-            price: 85000,
-        },
-        {
-            id: 5,
-            make: "Nisan", 
-            model: "Altima", 
-            year: 2000, 
-            color: "red", 
-            price: 15000,
-        },
-        {
-            id: 6,
-            make: "Bugatti", 
-            model: "Chiron", 
-            year: 2016, 
-            color: "blue", 
-            price: 1600000,
-        },
-
-    ];
 
     public carsShown: Object[] = [];
 
     public pageLength: number = 2;
     public pageIndex: number = 0;
-    public totalPages: number = Math.ceil(this.cars.length / this.pageLength);
+    public totalPages: number = Math.ceil(this.carsService.getAll().length / this.pageLength);
 
     public nextPage() {
         this.pageIndex++;
@@ -167,10 +132,6 @@ export class AppComponent {
     public lastCars: any[];
     private internalSortedCars: any[];
 
-    // public compare(a : any, b : any) {
-    //     return a.year - b.year;
-    // }
-
     private filterCache: Map<string, Object[]> = new Map<string, Object[]>();
 
     public get filteredCars(): Object[] {
@@ -179,39 +140,40 @@ export class AppComponent {
             //actually filter colors and store in map
             //pass callback function in filter
             this.filterCache.set(this.carMakeFilter, 
-                this.cars.filter((car) =>  car.make.toUpperCase().startsWith(this.carMakeFilter.toUpperCase())));
+                this.carsService.getAll().filter((car) =>  car.make.toUpperCase().startsWith(this.carMakeFilter.toUpperCase())));
         }
         this.totalPages = Math.ceil(this.filterCache.get(this.carMakeFilter).length / this.pageLength);
         //this.pageIndex = 0;
         //console.log(this.pageIndex);
+        //console.log("index");
         return this.filterCache.get(this.carMakeFilter);
     }
 
     public get sortedCars () {
         //if you only mutate array this will not be true, need to update reference
-        if(this.lastCars !== this.cars) {
-            this.lastCars = this.cars;
+        if(this.lastCars !== this.carsService.getAll()) {
+            this.lastCars = this.carsService.getAll();
             //concat returns reference to new object array on heap
             //non destructive sort
-            this.internalSortedCars = this.cars.concat().sort((a , b) => a.year-b.year); 
+            this.internalSortedCars = this.carsService.getAll().concat().sort((a , b) => a.year-b.year); 
         }
         //console.log("called get sorted colors");
         return this.internalSortedCars;
     }
 
-    public addCar() {
-        this.cars = this.cars.concat(this.newCar);
-        console.log(this.cars);
-        this.newCar = {
-            id: 0,
-            make: "", 
-            model: "", 
-            year: 0, 
-            color: "", 
-            price: 0,
-        };
-        this.filterCache.clear();
-        this.totalPages = Math.ceil(this.cars.length / this.pageLength);
-    }
+    // public addCar() {
+    //     this.cars = this.cars.concat(this.newCar);
+    //     console.log(this.cars);
+    //     this.newCar = {
+    //         id: 0,
+    //         make: "", 
+    //         model: "", 
+    //         year: 0, 
+    //         color: "", 
+    //         price: 0,
+    //     };
+    //     this.filterCache.clear();
+    //     this.totalPages = Math.ceil(this.cars.length / this.pageLength);
+    // }
 }
 //traditional name for root Component is AppComponent

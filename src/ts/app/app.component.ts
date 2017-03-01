@@ -1,4 +1,11 @@
 import { Component, Pipe, PipeTransform } from "@angular/core";
+import { Logger } from "./services/logger.service";
+import { Logger2 } from "./services/logger2.service";
+
+const MockLogger = {
+    log: () => {},
+    error: () => {},
+};
 
 // @Pipe({
 //     name: "demo",
@@ -16,7 +23,7 @@ import { Component, Pipe, PipeTransform } from "@angular/core";
     selector: "main",
     template: `
     <div>
-        <h1>{{header | lowercase}}</h1>
+        <h1>{{header | myUppercase | myAppend:'!!!!'}}</h1>
         <form>
             <div>
                 <label>Filter:</label>
@@ -24,7 +31,7 @@ import { Component, Pipe, PipeTransform } from "@angular/core";
             </div>
         </form>
         <ul>
-            <li *ngFor="let color of filteredColors(colorSort) | slice:startIndex:endIndex">{{color}}</li>
+            <li *ngFor="let color of filteredColors(colorSort) ">{{color}}</li>
         </ul>
     </div>
     <form>
@@ -48,18 +55,15 @@ import { Component, Pipe, PipeTransform } from "@angular/core";
         </button>
     </div>
     `,
+    
 })
 export class AppComponent { 
     public header: string = "Color Tool";
     public newColor: string = "";
     public colorFilter: string = "";
 
-    public startIndex: number = 1;
-    public endIndex: number = 4;
-
-    public pageLength: number = 2;
-    public pageIndex: number = 0;
-    public totalPages: number = 0;
+    //inject logger service
+    constructor(private logger: Logger){ };
 
     public colors: string[] = [
         "saffron", "green", "white", "red", "gold", "blue", "yellow",
@@ -73,6 +77,7 @@ export class AppComponent {
 //removed get accessor b/c can't pass in parameter for get
     public filteredColors(sortFn: Function) {
         if (!this.filterCache.has(this.colorFilter)) {
+            this.logger.log("doing some filtering");
             this.filterCache.set(this.colorFilter,
                 sortFn(this.colors.filter((color) => color.startsWith(this.colorFilter))));
         }

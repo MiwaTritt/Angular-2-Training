@@ -5,7 +5,7 @@ import { Car } from "./interfaces/car";
 @Component({
     selector: "main",
     template: `
-    <tool-header header=""></tool-header>
+    <tool-header [header]="toolHeader"></tool-header>
     <form>
         <div>
             <label>Message:</label>
@@ -23,28 +23,7 @@ import { Car } from "./interfaces/car";
             <input type="text" name="carMakeFilterInput" [(ngModel)]="carMakeFilter">
         </div>
     </form>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Make</th>
-                <th>Model</th> 
-                <th>Year</th>
-                <th>Color</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let car of filteredCars | slice:startIndex:endIndex">
-                <td>{{car.id}}</td>
-                <td>{{car.make}}</td>
-                <td>{{car.model}}</td> 
-                <td>{{car.year}}</td>
-                <td>{{car.color}}</td>
-                <td>{{car.price}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <car-table [filteredCars]="filteredCars | slice:startIndex:endIndex"></car-table>
     <form>
         <div>
             <label for="new-car-make-input">Make</label>
@@ -85,7 +64,7 @@ import { Car } from "./interfaces/car";
     `,
 })
 export class AppComponent { 
-    public toolHeader: string = "car tool is cool by mckar";
+    public toolHeader: string = "Car Tool";
     public message: string;
     public messageLength: number = 0;
 

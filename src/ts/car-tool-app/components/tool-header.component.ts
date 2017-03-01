@@ -1,4 +1,4 @@
-import { Component, Input, OnInit }  from "@angular/core";
+import { Component, Input }  from "@angular/core";
 
 @Component({
     selector: "tool-header",
@@ -8,7 +8,7 @@ import { Component, Input, OnInit }  from "@angular/core";
     </header>
     `,
 })
-export class ToolHeader implements OnInit{
+export class ToolHeader {
 
     //property name needs to be the same as the attribute in the html element
     @Input()
@@ -16,9 +16,5 @@ export class ToolHeader implements OnInit{
 
     @Input()
     public obj: Object;
-
-    public ngOnInit(){
-        console.log(this.obj);
-    }
 
  }

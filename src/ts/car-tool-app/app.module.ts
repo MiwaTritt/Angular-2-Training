@@ -8,7 +8,6 @@ import { MyEllipsisPipe } from "./pipes/my-ellipsis.pipe";
 //App Module eventually imported into main.ts
 
 import { Cars } from "./services/cars.service";
-import { Cars2 } from "./services/cars2.service";
 
 @NgModule({
     //BrowserModule - actual module

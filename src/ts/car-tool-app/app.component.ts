@@ -106,8 +106,7 @@ export class AppComponent {
     constructor(private carsService: Cars){ };
 
     public carMakeFilter: string = "";
-
-    public carsShown: Object[] = [];
+    public oldCarMakeFilter: string = "";
 
     public pageLength: number = 2;
     public pageIndex: number = 0;
@@ -130,11 +129,11 @@ export class AppComponent {
     }
 
     public lastCars: any[];
-    private internalSortedCars: any[];
+    private internalSortedCars: Car[];
 
-    private filterCache: Map<string, Object[]> = new Map<string, Object[]>();
+    private filterCache: Map<string, Car[]> = new Map<string, Car[]>();
 
-    public get filteredCars(): Object[] {
+    public get filteredCars(): Car[] {
         //see if key value pair for that color exists in map
         if(!this.filterCache.has(this.carMakeFilter)){
             //actually filter colors and store in map
@@ -143,9 +142,10 @@ export class AppComponent {
                 this.carsService.getAll().filter((car) =>  car.make.toUpperCase().startsWith(this.carMakeFilter.toUpperCase())));
         }
         this.totalPages = Math.ceil(this.filterCache.get(this.carMakeFilter).length / this.pageLength);
-        //this.pageIndex = 0;
-        //console.log(this.pageIndex);
-        //console.log("index");
+        if( this.carMakeFilter !== this.oldCarMakeFilter){
+            this.pageIndex = 0;
+        }
+        this.oldCarMakeFilter = this.carMakeFilter; 
         return this.filterCache.get(this.carMakeFilter);
     }
 
@@ -157,23 +157,21 @@ export class AppComponent {
             //non destructive sort
             this.internalSortedCars = this.carsService.getAll().concat().sort((a , b) => a.year-b.year); 
         }
-        //console.log("called get sorted colors");
         return this.internalSortedCars;
     }
 
-    // public addCar() {
-    //     this.cars = this.cars.concat(this.newCar);
-    //     console.log(this.cars);
-    //     this.newCar = {
-    //         id: 0,
-    //         make: "", 
-    //         model: "", 
-    //         year: 0, 
-    //         color: "", 
-    //         price: 0,
-    //     };
-    //     this.filterCache.clear();
-    //     this.totalPages = Math.ceil(this.cars.length / this.pageLength);
-    // }
+    public addCar() {
+        this.carsService.add(this.newCar);
+        this.newCar = {
+            id: 0,
+            make: "", 
+            model: "", 
+            year: 0, 
+            color: "", 
+            price: 0,
+        };
+        this.filterCache.clear();
+        this.totalPages = Math.ceil(this.carsService.getAll().length / this.pageLength);
+    }
 }
 //traditional name for root Component is AppComponent

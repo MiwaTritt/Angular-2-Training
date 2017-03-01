@@ -5,7 +5,7 @@ import { Car } from "./interfaces/car";
 @Component({
     selector: "main",
     template: `
-    <tool-header [header]="toolHeader"></tool-header>
+    <tool-header [obj]="someObject" [header]="toolHeader"></tool-header>
     <form>
         <div>
             <label>Filter:</label>
@@ -30,6 +30,8 @@ export class AppComponent {
     public toolHeader: string = "Car Tool";
     public message: string;
     public messageLength: number = 0;
+
+    public someObject = { name: "blob", size: "huge"};
 
     public cars : Car[] = [];
 

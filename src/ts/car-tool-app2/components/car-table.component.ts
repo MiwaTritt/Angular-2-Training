@@ -4,8 +4,7 @@ import { Car } from "../interfaces/car";
 
 @Component({
     selector: "car-table",
-    template: `        
-        <table>
+    template: `        <table>
             <thead>
                 <tr>
                     <th>Make</th>
@@ -24,8 +23,7 @@ import { Car } from "../interfaces/car";
                     <td>{{car.price}}</td>
                 </tr>
             </tbody>
-        </table>
-        `,
+        </table>`,
 })
 export class CarTable {
 

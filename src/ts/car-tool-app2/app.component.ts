@@ -7,10 +7,11 @@ import { Cars } from "./services/cars.service";
     selector: "main",
     template: `
         <tool-header [header]="toolHeader"></tool-header>
-        <paginated-car-table 
-            [initialPage]="0" 
-            [pageLength]="3"
+        <paginated-car-table
+            [initialPage]="0" [pageLength]="3" 
             [cars]="cars"></paginated-car-table>
+        <filtered-car-table
+            [cars]="cars"></filtered-car-table>
         <car-form (carSubmitted)="addCar($event)"></car-form>
     `,
     providers: [ Cars ],

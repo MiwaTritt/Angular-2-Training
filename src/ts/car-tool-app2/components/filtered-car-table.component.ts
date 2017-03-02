@@ -39,7 +39,7 @@ export class FilteredCarTable {
             //actually filter colors and store in map
             //pass callback function in filter
             this.filterCache.set(this.carMakeFilter, 
-                this.cars.filter((car) =>  car.make.toUpperCase().startsWith(this.carMakeFilter.toUpperCase()) ));
+                this.cars.filter((car) =>  car.make !== 'undefined' ? car.make.toUpperCase().startsWith(this.carMakeFilter.toUpperCase()) : false ));
         }
 
         return this.filterCache.get(this.carMakeFilter);

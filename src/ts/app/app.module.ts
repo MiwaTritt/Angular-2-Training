@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
 
 import { AppComponent } from "./app.component";
 import { MyUppercasePipe } from "./pipes/my-uppercase.pipe";
@@ -13,7 +14,7 @@ import { Logger2 } from "./services/logger2.service";
 
 @NgModule({
     //BrowserModule - actual module
-    imports: [ BrowserModule, FormsModule],
+    imports: [ BrowserModule, FormsModule, HttpModule ],
     declarations: [ AppComponent, MyUppercasePipe, MyAppendPipe ],
     bootstrap: [ AppComponent ],
     //services, can reference logger but use different versions of service

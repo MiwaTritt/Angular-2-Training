@@ -1,7 +1,9 @@
 import { Component } from "@angular/core";
+import { Http } from "@angular/http";
 
 import { Car } from "./interfaces/car";
 import { Cars } from "./services/cars.service";
+
 
 @Component({
     selector: "main",
@@ -19,7 +21,7 @@ import { Cars } from "./services/cars.service";
 export class AppComponent {
 
     public toolHeader: string = "Car Tool!!";
-    public cars: Car[];
+    public cars: Car[] = [];
     public newCar: Car = {} as Car;
 
 
@@ -34,14 +36,18 @@ export class AppComponent {
         return this.startIndex + this.pageLength;
     }
 
-    constructor(private carsSvc: Cars) {
+    constructor(private carsSvc: Cars, private http : Http) {
+
+        this.carsSvc.refresh().then(() =>{
+            this.cars = this.carsSvc.getAll();
+        })
 
         this.carsSvc.updated(() => {
             console.log("car svc updated");
-            this.cars = carsSvc.getAll();
+            this.carsSvc.refresh().then(() =>{
+                this.cars = this.carsSvc.getAll();
+            })
         });
-
-        this.cars = carsSvc.getAll();
    }
 
     public nextPage() {
@@ -53,6 +59,8 @@ export class AppComponent {
     }
 
     public addCar(newCar: Car) {
-        this.carsSvc.append(newCar);
+        this.carsSvc.append(newCar).then(() =>{
+            console.log("added car");
+        })
     }
 }

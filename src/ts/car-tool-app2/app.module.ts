@@ -4,6 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 
 import { AppComponent } from "./app.component";
+import { MyComp } from "./app.component";
 import { ToolHeader } from "./components/tool-header.component";
 import { CarTable } from "./components/car-table.component";
 import { CarForm } from "./components/car-form.component";
@@ -14,7 +15,7 @@ import { FilteredCarTable } from "./components/filtered-car-table.component";
     imports: [ BrowserModule, FormsModule, HttpModule ],
     declarations: [
         AppComponent, ToolHeader,
-        CarForm, CarTable, PaginatedCarTable, FilteredCarTable,
+        CarForm, CarTable, PaginatedCarTable, FilteredCarTable, MyComp,
     ],
     bootstrap: [ AppComponent ],
 })

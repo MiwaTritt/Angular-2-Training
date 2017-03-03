@@ -49,37 +49,8 @@
       "price": 1600000
     },
     {
-      "make": "sdf",
-      "model": "sdf",
+      "make": "sadf",
       "id": 7
-    },
-    {
-      "make": "jk",
-      "id": 8
-    },
-    {
-      "make": "jkhjk",
-      "id": 9
-    },
-    {
-      "make": "jkl",
-      "model": "adsf",
-      "year": "324",
-      "color": "d",
-      "price": "12",
-      "id": 10
-    },
-    {
-      "make": "asdf",
-      "model": "sadf",
-      "year": "12",
-      "color": "asd",
-      "price": "12",
-      "id": 11
-    },
-    {
-      "make": "fyu",
-      "id": 12
     }
   ],
   "owners": [

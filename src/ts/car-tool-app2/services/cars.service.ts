@@ -3,6 +3,9 @@ import { Injectable } from "@angular/core";
 import { Car } from "../interfaces/car";
 import { Http, RequestOptions, Headers } from "@angular/http";
 
+import "rxjs";
+import { Observable } from "rxjs";
+
 
 @Injectable()
 export class Cars {
@@ -13,10 +16,14 @@ export class Cars {
 
     constructor(private http : Http) { };
 
-    public refresh(): Promise<Car[]> {
+    public refresh(): Observable<Car[]> {
          return this.http.get("http://localhost:3010/cars")
-         .toPromise().then(res => res.json())
-         .then(cars => this.cars = cars);
+         .map((res) => res.json())
+         .map((cars) =>{
+             this.cars = cars;
+             this.notifyUpdate();
+             return this.cars;
+         });
     }
 
     public getAll(): Car[] {
@@ -35,7 +42,7 @@ export class Cars {
 
         return this.http.post("http://localhost:3010/cars", JSON.stringify(car), requestOptions)
             .toPromise().then((res) => res.json())
-            .then((car) => { this.refresh(); this.notifyUpdate()});
+            .then((car) => { this.refresh();});
     }
 
     public updated(fn: Function) {

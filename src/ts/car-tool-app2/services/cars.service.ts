@@ -35,7 +35,7 @@ export class Cars {
 
         return this.http.post("http://localhost:3010/cars", JSON.stringify(car), requestOptions)
             .toPromise().then((res) => res.json())
-            .then((car) => { console.log(car); this.notifyUpdate()});
+            .then((car) => { this.refresh(); this.notifyUpdate()});
     }
 
     public updated(fn: Function) {

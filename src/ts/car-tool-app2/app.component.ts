@@ -44,9 +44,7 @@ export class AppComponent {
 
         this.carsSvc.updated(() => {
             console.log("car svc updated");
-            this.carsSvc.refresh().then(() =>{
-                this.cars = this.carsSvc.getAll();
-            })
+            this.cars = this.carsSvc.getAll();
         });
    }
 
